@@ -6,7 +6,9 @@ const HabitSchema = new mongoose.Schema({
     FinishedDays: [{
         checked: { type: Boolean, required: true, default: false },
         data: { type: Date, required: true },
-    }]
+        _id: { type: String, required: true, unique: true },
+    }],
+    _id: { type: String, required: true, unique: true },
     
 });
 

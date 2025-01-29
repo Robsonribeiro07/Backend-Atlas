@@ -12,9 +12,7 @@ const listSchema = new mongoose.Schema({
             default: 'Media'
 
         },
-        id: { type: mongoose.Schema.Types.ObjectId,
-            default: new mongoose.Types.ObjectId, unique: true 
-         },
+       
         status: { 
             type: String, 
             enum: ['pendente', 'concluido'], 

@@ -6,13 +6,18 @@ const habit = express.Router()
 
 
 habit.post('/new-habit', async (req, res) => {
-    const {UserId, Title,} = req.body
+    const {UserId, Title, habitId,} = req.body
+
+    console.log(habitId)
     if(!UserId || !Title) return res.send('Todos os campos são obrigatórios')
      
     
     try {
 
-    await NewHabit({id: UserId, Title: Title})
+    await NewHabit({id: UserId, Title: Title, habitId: habitId})
+
+    return res.status(200).send('Novo hábito cadastrado com sucesso')
+
          
     } catch (e) {
         return res.status(500).send('Falha ao cadastrar novo hábito')
@@ -35,7 +40,10 @@ habit.post('/get-habits', async (req, res) => {
 
 })
 habit.patch('/finished-habit', async (req, res) => {
-    const { UserId, HabitId, FinishedDays } = req.body;
+    const { UserId, HabitId, FinishedDays, _id } = req.body;
+    console.log(`id aqui ${HabitId  }`)
+
+
 
 
     if (!UserId || !HabitId || !FinishedDays) {
@@ -59,11 +67,15 @@ habit.patch('/finished-habit', async (req, res) => {
 
         if (existingDay) {
             existingDay.checked = !existingDay.checked; // Alterna entre true/false
+            console.log('marcado como concluído')
         } else {
             habit.FinishedDays.push({
                 data: FinishedDays,
-                checked: true
+                checked: true,  
+                _id: _id
             });
+            console.log('marcado como false')
+            
         }
 
         await list.save();

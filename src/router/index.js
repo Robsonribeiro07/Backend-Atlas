@@ -6,7 +6,7 @@
 
     router.post('/new-task', async (req, res) => {
 
-    const {tarefa, prioridade, id} = req.body
+    const {tarefa, prioridade, id, } = req.body
 
 
         if(!tarefa || !prioridade) return res.send('Todos os campos são obrigatórios')
@@ -25,7 +25,7 @@
         
             
         } catch {
-            console.log('Error creating new list')
+           return res.status(500).send('Error creating new list')
         }
         
     })
@@ -131,11 +131,8 @@
     })
 
    router.patch('/edit-task', async (req, res) => {
-     const {data} = req.body
 
-     const {UserId, TaskId, UpdateName} = data
-     console.log(TaskId, UserId, UpdateName)
-     console.log(req.body)
+     const {UserId, TaskId, UpdateName} = req.body
 
      if(!TaskId || !UserId || !UpdateName) return res.status(400).send('Todos os campos são obrigatórios')
 
