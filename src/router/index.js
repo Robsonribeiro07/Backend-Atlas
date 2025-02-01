@@ -21,11 +21,11 @@
         
             await newList.save()
         
-            res.status(200).json({ message: 'lista criada com sucesso' })
+            res.status(200).json({ message: "Success"})
         
             
         } catch {
-           return res.status(500).send('Error creating new list')
+           return res.status(500).json({message: "failed"})
         }
         
     })
@@ -132,7 +132,7 @@
 
    router.patch('/edit-task', async (req, res) => {
 
-     const {UserId, TaskId, UpdateName} = req.body
+     const {UserId, TaskId, UpdateName, UpdatePrioridade} = req.body
 
      if(!TaskId || !UserId || !UpdateName) return res.status(400).send('Todos os campos são obrigatórios')
 
@@ -144,6 +144,7 @@
         list.task = list.task.map(task => {
             if(task._id.toString() === TaskId) {
                 task.tarefa = UpdateName
+                task.prioridade = UpdatePrioridade
               
             }
             return task
