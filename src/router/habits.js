@@ -86,4 +86,31 @@ habit.patch('/finished-habit', async (req, res) => {
         return res.status(500).send('Erro ao processar a solicitação');
     }
 });
+
+habit.delete('/delete-habit',  async (req,res) => { 
+    const {UserId, habitId} = req.body
+
+    if(!UserId || !habitId) return res.status(400).send('Todos os campos são obrigatórios')
+    
+    try {
+        const list = await List.findOne({id: UserId})
+
+        if(!list) return res.status(404).send('Nenhuma lista encontrada')
+
+        const updateHabitWithoutDeleteHabit = list.Habits.filter((habit) => habit.id !== habitId)
+
+        list.Habits = updateHabitWithoutDeleteHabit
+
+        await list.save()
+
+
+        return res.status(200).send('Hábito excluído com sucesso')
+
+        
+   
+    } catch {
+        return res.status(500).send('Falha ao excluir o hábito')
+        
+    }
+})
 export default habit;
